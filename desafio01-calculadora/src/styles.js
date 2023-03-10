@@ -4,7 +4,7 @@ export const Container = styled.div`
     * {
         font-family: Segoe UI; 
     }
-    
+
     width: 100%;
     height: 100vh;
     background-color: #44F1FA; 
@@ -17,7 +17,7 @@ export const Container = styled.div`
 export const Content = styled.div`
     background-color: #1E2024;
     padding: 6px;
-    border-radius: 6px;
+    border-radius: 9px;
     width: 60%;
 `
 

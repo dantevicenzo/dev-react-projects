@@ -32,9 +32,9 @@ const App = () => {
   const handleToggleSign = () => {
     setRecentClickEquals(false);
     if(currentNumber !== '0'){
-      let flippedNumber = Number(currentNumber);
+      let flippedNumber = stringToFloat(currentNumber);
       flippedNumber *= -1;
-      setCurrentNumber(String(flippedNumber));
+      setCurrentNumber(floatToString(flippedNumber));
     }
   }
 
@@ -68,10 +68,10 @@ const App = () => {
   };
 
   const handleSetOperation = (operation) => {
-    setRecentClickEquals(false);
-
-    setFirstNumber(currentNumber);
     setRecentClickOperation(true);
+    setRecentClickEquals(false);
+    setFirstNumber(currentNumber);
+    
 
     switch (operation) {
       case '+':
@@ -100,29 +100,39 @@ const App = () => {
 
     switch (currentOperation) {
       case '+':
-        let sum = Number(firstNumber) + Number(currentNumber);
-        setCurrentNumber(sum);
+        let sum = stringToFloat(firstNumber) + stringToFloat(currentNumber);
+        setCurrentNumber(floatToString(sum));
         setValueCurrentOperation(firstNumber + ' + ' + currentNumber + ' =');
         break;
       case '-':
-        let subtraction = Number(firstNumber) - Number(currentNumber);
+        let subtraction = stringToFloat(firstNumber) - stringToFloat(currentNumber);
         setValueCurrentOperation(firstNumber + ' − ' + currentNumber + ' =');
-        setCurrentNumber(subtraction);
+        setCurrentNumber(floatToString(subtraction));
+        
         break;
       case 'x':
-        let multiplication = Number(firstNumber) * Number(currentNumber);
+        let multiplication = stringToFloat(firstNumber) * stringToFloat(currentNumber);
         setValueCurrentOperation(firstNumber + ' × ' + currentNumber + ' =');
-        setCurrentNumber(multiplication);
+        setCurrentNumber(floatToString(multiplication));
         break;
       case '/':
-        let division = Number(firstNumber) / Number(currentNumber);
+        let division = stringToFloat(firstNumber) / stringToFloat(currentNumber);
         setValueCurrentOperation(firstNumber + ' ÷ ' + currentNumber + ' =');
-        setCurrentNumber(division);
+        setCurrentNumber(floatToString(division));
         break;
       default:
         break;
     }
   }
+
+  const stringToFloat = (string) => {
+    return parseFloat(string.replace(",", "."));
+  }
+
+  const floatToString = (float) => {
+    return String(float).replace(".", ",");
+  }
+
 
   return (
     <Container>
