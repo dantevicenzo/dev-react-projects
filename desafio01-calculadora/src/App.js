@@ -10,21 +10,27 @@ const App = () => {
   const [currentNumber, setCurrentNumber] = useState('0');
   const [firstNumber, setFirstNumber] = useState('null');
   const [currentOperation, setCurrentOperation] = useState('null');
+  const [valueCurrentOperation, setValueCurrentOperation] = useState('');
   const [recentClickOperation, setRecentClickOperation] = useState(false);
+  const [recentClickEquals, setRecentClickEquals] = useState(false);
   
   
 
   const handleOnClear = () => {
+    setRecentClickEquals(false);
     setCurrentNumber('0');
     setCurrentOperation('null');
     setFirstNumber('null');
+    setValueCurrentOperation('');
   };
   
   const handleOnClearEntry = () => {
+    setRecentClickEquals(false);
     setCurrentNumber('0');
   };
 
   const handleToggleSign = () => {
+    setRecentClickEquals(false);
     if(currentNumber !== '0'){
       let flippedNumber = Number(currentNumber);
       flippedNumber *= -1;
@@ -33,12 +39,27 @@ const App = () => {
   }
 
   const handleComma = () => {
-    if(currentNumber != '0' && !currentNumber.includes(',')){
-      setCurrentNumber(currentNumber + ',');
+
+    if(currentNumber != '0' && !String(currentNumber).includes(',')){
+      if(recentClickEquals){
+        setCurrentNumber('0,');
+        setValueCurrentOperation('');
+      }
+      else{
+        setCurrentNumber(currentNumber + ',');
+      }
     }
+    setRecentClickEquals(false);
   }
 
   const handleAddNumber = (number) => {
+    if (recentClickEquals) {
+      setCurrentNumber('');
+      setValueCurrentOperation('');
+    }
+
+    setRecentClickEquals(false);
+    
     if(currentOperation !== 'null' && recentClickOperation){
       setCurrentNumber('');
       setRecentClickOperation(false);
@@ -47,6 +68,7 @@ const App = () => {
   };
 
   const handleSetOperation = (operation) => {
+    setRecentClickEquals(false);
 
     setFirstNumber(currentNumber);
     setRecentClickOperation(true);
@@ -54,15 +76,19 @@ const App = () => {
     switch (operation) {
       case '+':
         setCurrentOperation('+');
+        setValueCurrentOperation(currentNumber + ' +' );
         break;
       case '-':
         setCurrentOperation('-');
+        setValueCurrentOperation(currentNumber + ' −' );
         break;
       case 'x':
         setCurrentOperation('x');
+        setValueCurrentOperation(currentNumber + ' ×' );
         break;
       case '/':
-        setCurrentOperation('=');
+        setCurrentOperation('/');
+        setValueCurrentOperation(currentNumber + ' ÷' );
         break;
       default:
         break;
@@ -70,21 +96,27 @@ const App = () => {
   }
 
   const handleEquals = () => {
+    setRecentClickEquals(true);
+
     switch (currentOperation) {
       case '+':
         let sum = Number(firstNumber) + Number(currentNumber);
         setCurrentNumber(sum);
+        setValueCurrentOperation(firstNumber + ' + ' + currentNumber + ' =');
         break;
       case '-':
         let subtraction = Number(firstNumber) - Number(currentNumber);
+        setValueCurrentOperation(firstNumber + ' − ' + currentNumber + ' =');
         setCurrentNumber(subtraction);
         break;
       case 'x':
         let multiplication = Number(firstNumber) * Number(currentNumber);
+        setValueCurrentOperation(firstNumber + ' × ' + currentNumber + ' =');
         setCurrentNumber(multiplication);
         break;
       case '/':
         let division = Number(firstNumber) / Number(currentNumber);
+        setValueCurrentOperation(firstNumber + ' ÷ ' + currentNumber + ' =');
         setCurrentNumber(division);
         break;
       default:
@@ -95,7 +127,7 @@ const App = () => {
   return (
     <Container>
       <Content>
-        <Input value={currentNumber}/>
+        <Input value={currentNumber} valueCurrentOperation={valueCurrentOperation}/>
         <Row>
           <Button label={'%'} className='operation' onClick={() => handleAddNumber('⅟x')}/>
           <Button label={'CE'} className='operation' onClick={handleOnClearEntry}/>
@@ -118,7 +150,7 @@ const App = () => {
           <Button label={'4'} className='number' onClick={() => handleAddNumber('4')}/>
           <Button label={'5'} className='number' onClick={() => handleAddNumber('5')}/>
           <Button label={'6'} className='number' onClick={() => handleAddNumber('6')}/>
-          <Button label={'-'} className='operation' onClick={() => handleSetOperation('-')}/>
+          <Button label={'−'} className='operation' onClick={() => handleSetOperation('-')}/>
         </Row>
         <Row>
           <Button label={'1'} className='number' onClick={() => handleAddNumber('1')}/>

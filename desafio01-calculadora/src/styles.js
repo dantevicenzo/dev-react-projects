@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+    * {
+        font-family: Segoe UI; 
+    }
+    
     width: 100%;
     height: 100vh;
     background-color: #44F1FA; 
