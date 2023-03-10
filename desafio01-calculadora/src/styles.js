@@ -18,7 +18,9 @@ export const Content = styled.div`
     background-color: #1E2024;
     padding: 6px;
     border-radius: 9px;
-    width: 60%;
+    width: 390px;
+    min-width: 390px;
+    max-width: 900px;
 `
 
 export const Row = styled.div`

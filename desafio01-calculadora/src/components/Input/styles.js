@@ -9,10 +9,6 @@ export const InputContainer = styled.div`
     align-items: center;
     justify-content: flex-end;
     flex-direction: column;
-    
-    
-
-    font-size: 24px;
 
     input {
         width: 96%;
@@ -24,6 +20,7 @@ export const InputContainer = styled.div`
         padding: 0 12px;
         color: #FFFFFF;        
         font-weight: 600;
+        margin-bottom: 6px;
     }
 
     .valueCurrentOperation {
@@ -31,5 +28,6 @@ export const InputContainer = styled.div`
         width: 93.5%;
         font-weight: 450;
         color: #C3C3C3;  
+        margin-bottom: -9px;
     }
 `
