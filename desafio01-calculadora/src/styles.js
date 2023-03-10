@@ -21,6 +21,7 @@ export const Content = styled.div`
     width: 390px;
     min-width: 390px;
     max-width: 900px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
 `
 
 export const Row = styled.div`
