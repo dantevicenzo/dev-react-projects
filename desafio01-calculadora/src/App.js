@@ -13,11 +13,13 @@ const App = () => {
   const [valueCurrentOperation, setValueCurrentOperation] = useState('');
   const [recentClickOperation, setRecentClickOperation] = useState(false);
   const [recentClickEquals, setRecentClickEquals] = useState(false);
+  const [recentClickNumber, setRecentClickNumber] = useState(false);
   
   
 
   const handleOnClear = () => {
-    setRecentClickEquals(false);
+    updateClickState(false, false, false);
+
     setCurrentNumber('0');
     setCurrentOperation('null');
     setFirstNumber('null');
@@ -25,12 +27,14 @@ const App = () => {
   };
   
   const handleOnClearEntry = () => {
-    setRecentClickEquals(false);
+    updateClickState(false, false, false);
+
     setCurrentNumber('0');
   };
 
   const handleToggleSign = () => {
-    setRecentClickEquals(false);
+    updateClickState(false, false, false);
+
     if(currentNumber !== '0'){
       let flippedNumber = stringToFloat(currentNumber);
       flippedNumber *= -1;
@@ -39,8 +43,9 @@ const App = () => {
   }
 
   const handleComma = () => {
+    updateClickState(false, false, false);
 
-    if(currentNumber != '0' && !String(currentNumber).includes(',')){
+    if(!String(currentNumber).includes(',')){
       if(recentClickEquals){
         setCurrentNumber('0,');
         setValueCurrentOperation('');
@@ -49,7 +54,6 @@ const App = () => {
         setCurrentNumber(currentNumber + ',');
       }
     }
-    setRecentClickEquals(false);
   }
 
   const handleAddNumber = (number) => {
@@ -57,8 +61,8 @@ const App = () => {
       setCurrentNumber('');
       setValueCurrentOperation('');
     }
-
-    setRecentClickEquals(false);
+    
+    updateClickState(false, false, true);
     
     if(currentOperation !== 'null' && recentClickOperation){
       setCurrentNumber('');
@@ -68,61 +72,84 @@ const App = () => {
   };
 
   const handleSetOperation = (operation) => {
-    setRecentClickOperation(true);
-    setRecentClickEquals(false);
+    updateClickState(false, true, false);
+
     setFirstNumber(currentNumber);
     
-
     switch (operation) {
       case '+':
         setCurrentOperation('+');
-        setValueCurrentOperation(currentNumber + ' +' );
+        setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' +' );
         break;
       case '-':
         setCurrentOperation('-');
-        setValueCurrentOperation(currentNumber + ' −' );
+        setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' −' );
         break;
       case 'x':
         setCurrentOperation('x');
-        setValueCurrentOperation(currentNumber + ' ×' );
+        setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' ×' );
         break;
       case '/':
         setCurrentOperation('/');
-        setValueCurrentOperation(currentNumber + ' ÷' );
+        setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' ÷' );
+        break;
+      case '=':
+        setCurrentOperation('=');
+        setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' =' );
         break;
       default:
         break;
     }
+
+    
   }
 
   const handleEquals = () => {
-    setRecentClickEquals(true);
-
+    updateClickState(true, false, false);
+    
     switch (currentOperation) {
       case '+':
         let sum = stringToFloat(firstNumber) + stringToFloat(currentNumber);
-        setCurrentNumber(floatToString(sum));
-        setValueCurrentOperation(firstNumber + ' + ' + currentNumber + ' =');
+        setCurrentNumber(currentNumberPreventLastComma(sum));
+        setValueCurrentOperation(firstNumber + ' + ' + currentNumberPreventLastComma(currentNumber) + ' =');
         break;
       case '-':
         let subtraction = stringToFloat(firstNumber) - stringToFloat(currentNumber);
-        setValueCurrentOperation(firstNumber + ' − ' + currentNumber + ' =');
-        setCurrentNumber(floatToString(subtraction));
-        
+        setValueCurrentOperation(firstNumber + ' − ' + currentNumberPreventLastComma(currentNumber) + ' =');
+        setCurrentNumber(currentNumberPreventLastComma(subtraction));
         break;
       case 'x':
         let multiplication = stringToFloat(firstNumber) * stringToFloat(currentNumber);
-        setValueCurrentOperation(firstNumber + ' × ' + currentNumber + ' =');
-        setCurrentNumber(floatToString(multiplication));
+        setValueCurrentOperation(firstNumber + ' × ' + currentNumberPreventLastComma(currentNumber) + ' =');
+        setCurrentNumber(currentNumberPreventLastComma(multiplication));
         break;
       case '/':
         let division = stringToFloat(firstNumber) / stringToFloat(currentNumber);
-        setValueCurrentOperation(firstNumber + ' ÷ ' + currentNumber + ' =');
-        setCurrentNumber(floatToString(division));
+        setValueCurrentOperation(firstNumber + ' ÷ ' + currentNumberPreventLastComma(currentNumber) + ' =');
+        setCurrentNumber(currentNumberPreventLastComma(division));
         break;
       default:
+        setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' =');
         break;
     }
+
+  }
+
+  const handleBackspace = () => {
+    updateClickState(false, false, false);
+    if(currentNumber.length > 1){
+      let sliceNumber = currentNumber.slice(0, -1);
+      setCurrentNumber(sliceNumber);
+    }
+    else {
+      setCurrentNumber('0');
+    }
+  }
+
+  const updateClickState = (equals, operation, number) => {
+    setRecentClickEquals(equals);
+    setRecentClickOperation(operation);
+    setRecentClickNumber(number);
   }
 
   const stringToFloat = (string) => {
@@ -133,6 +160,21 @@ const App = () => {
     return String(float).replace(".", ",");
   }
 
+  const currentNumberPreventLastComma = (number) => {
+    let string = floatToString(number);
+
+    if(string.slice(-1) === ','){
+      string = string.slice(0, -1);
+      setCurrentNumber(string);
+      return string;
+    }
+    else{
+      return string;
+    }
+  }
+
+  
+
 
   return (
     <Container>
@@ -142,7 +184,7 @@ const App = () => {
           <Button label={'%'} className='operation' onClick={() => handleAddNumber('⅟x')}/>
           <Button label={'CE'} className='operation' onClick={handleOnClearEntry}/>
           <Button label={'C'} className='operation' onClick={handleOnClear}/>
-          <Button label={'⌫'} className='operation' onClick={() => handleAddNumber('%')}/>
+          <Button label={'⌫'} className='operation' onClick={handleBackspace}/>
         </Row>
         <Row>
           <Button label={'⅟x'} className='operation' onClick={() => handleAddNumber('⅟x')}/>
