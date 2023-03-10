@@ -102,6 +102,26 @@ const App = () => {
         setValueCurrentOperation('√' + currentNumber + ' =');
         setCurrentNumber(currentNumberPreventLastComma(sqrt));
         break;
+      case 'sqr':
+        let sqr = stringToFloat(currentNumber) * stringToFloat(currentNumber);
+        setValueCurrentOperation(currentNumber + '² =');
+        setCurrentNumber(currentNumberPreventLastComma(sqr));
+        break;
+      case 'divX':
+        let divX = 1 / stringToFloat(currentNumber);
+        setValueCurrentOperation('1/(' + currentNumber + ') =');
+        setCurrentNumber(currentNumberPreventLastComma(divX));
+        break;
+      case '%':
+
+        let valor1 = stringToFloat(firstNumber);
+        let valor2 = stringToFloat(currentNumber);
+
+        let porcentagem = (valor2 / 100) * valor1;
+
+        setValueCurrentOperation(firstNumber + ' ' + currentOperation + ' ' + porcentagem);
+        setCurrentNumber(currentNumberPreventLastComma(porcentagem));
+        break;
       default:
         break;
     }
@@ -132,11 +152,6 @@ const App = () => {
         let division = stringToFloat(firstNumber) / stringToFloat(currentNumber);
         setValueCurrentOperation(firstNumber + ' ÷ ' + currentNumberPreventLastComma(currentNumber) + ' =');
         setCurrentNumber(currentNumberPreventLastComma(division));
-        break;
-      case 'sqrt':
-        let sqrt = Math.sqrt(stringToFloat(currentNumber));
-        setValueCurrentOperation('√' + firstNumber);
-        setCurrentNumber(currentNumberPreventLastComma(sqrt));
         break;
       default:
         setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' =');
@@ -182,23 +197,21 @@ const App = () => {
       return string;
     }
   }
-
   
-
 
   return (
     <Container>
       <Content>
         <Input value={currentNumber} valueCurrentOperation={valueCurrentOperation}/>
         <Row>
-          <Button label={'%'} className='operation' onClick={() => handleAddNumber('⅟x')}/>
+          <Button label={'%'} className='operation' onClick={() => handleSetOperation('%')}/>
           <Button label={'CE'} className='operation' onClick={handleOnClearEntry}/>
           <Button label={'C'} className='operation' onClick={handleOnClear}/>
           <Button label={'⌫'} className='operation' onClick={handleBackspace}/>
         </Row>
         <Row>
-          <Button label={'⅟x'} className='operation' onClick={() => handleSetOperation('⅟x')}/>
-          <Button label={'x²'} className='operation' onClick={() => handleSetOperation('x²')}/>
+          <Button label={'⅟x'} className='operation' onClick={() => handleSetOperation('divX')}/>
+          <Button label={'x²'} className='operation' onClick={() => handleSetOperation('sqr')}/>
           <Button label={'√'} className='operation' onClick={() => handleSetOperation('sqrt')}/>
           <Button label={'÷'} className='operation' onClick={() => handleSetOperation('/')}/>
         </Row>
