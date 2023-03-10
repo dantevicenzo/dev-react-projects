@@ -1,11 +1,11 @@
-# Desafio Calculadora
+# Calculator Challenge
 
-Inspirado na calculadora do windows com design, usabilidade e funcionalidades semelhantes.
+Inspired by windows calculator with similar design, usability and functionality.
 
-Referência:
+Reference:
 
 ![reference image](https://github.com/dantevicenzo/dev-react-projects/blob/main/desafio01-calculadora/reference.png?raw=true)
 
-Implementação:
+Implementation:
 
-![reference image](https://github.com/dantevicenzo/dev-react-projects/blob/main/desafio01-calculadora/implementation.png?raw=true)
+![implementation image](https://github.com/dantevicenzo/dev-react-projects/blob/main/desafio01-calculadora/implementation.png?raw=true)
