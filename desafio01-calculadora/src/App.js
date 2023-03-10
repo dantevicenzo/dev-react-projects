@@ -97,6 +97,11 @@ const App = () => {
         setCurrentOperation('=');
         setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' =' );
         break;
+      case 'sqrt':
+        let sqrt = Math.sqrt(stringToFloat(currentNumber));
+        setValueCurrentOperation('√' + currentNumber + ' =');
+        setCurrentNumber(currentNumberPreventLastComma(sqrt));
+        break;
       default:
         break;
     }
@@ -127,6 +132,11 @@ const App = () => {
         let division = stringToFloat(firstNumber) / stringToFloat(currentNumber);
         setValueCurrentOperation(firstNumber + ' ÷ ' + currentNumberPreventLastComma(currentNumber) + ' =');
         setCurrentNumber(currentNumberPreventLastComma(division));
+        break;
+      case 'sqrt':
+        let sqrt = Math.sqrt(stringToFloat(currentNumber));
+        setValueCurrentOperation('√' + firstNumber);
+        setCurrentNumber(currentNumberPreventLastComma(sqrt));
         break;
       default:
         setValueCurrentOperation(currentNumberPreventLastComma(currentNumber) + ' =');
@@ -187,9 +197,9 @@ const App = () => {
           <Button label={'⌫'} className='operation' onClick={handleBackspace}/>
         </Row>
         <Row>
-          <Button label={'⅟x'} className='operation' onClick={() => handleAddNumber('⅟x')}/>
-          <Button label={'x²'} className='operation' onClick={() => handleAddNumber('x²')}/>
-          <Button label={'√'} className='operation' onClick={() => handleAddNumber('√')}/>
+          <Button label={'⅟x'} className='operation' onClick={() => handleSetOperation('⅟x')}/>
+          <Button label={'x²'} className='operation' onClick={() => handleSetOperation('x²')}/>
+          <Button label={'√'} className='operation' onClick={() => handleSetOperation('sqrt')}/>
           <Button label={'÷'} className='operation' onClick={() => handleSetOperation('/')}/>
         </Row>
         <Row>
