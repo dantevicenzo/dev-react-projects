@@ -6,14 +6,14 @@ const Button = ({label, onClick, className}) => {
   let corTexto = '';
 
   if (className === 'number') {
-    corFundo = '#383B40';
+    corFundo = '#3B3B3B';
     corTexto = '#FFFFFF';
   } else if (className === 'operation') {
-    corFundo = '#2E2F33';
+    corFundo = '#323232';
     corTexto = '#FFFFFF';
   } else if (className === 'equals') {
     corFundo = '#4CC2FF';
-    corTexto = '#1E2024';
+    corTexto = '#202020';
   }
 
   const estilo = {

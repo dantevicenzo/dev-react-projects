@@ -7,8 +7,11 @@ export const Container = styled.div`
 
     width: 100%;
     height: 100vh;
-    background-color: #44F1FA; 
-
+    background-color: #F3F3F3; 
+    background-image: url('https://4kwallpapers.com/images/wallpapers/windows-11-dark-mode-blue-stock-official-3840x2400-5630.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
